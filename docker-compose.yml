@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  bot:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: tutor-bot-app
+    restart: on-failure
+    depends_on:
+      - db
+    environment:
+      DB_PASSWORD: "qwerty"
+      DB_HOST: db
+  db:
+    restart: always
+    image: postgres:latest
+    container_name: tutor-bot-database
+    environment:
+      - POSTGRES_PASSWORD=qwerty
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+    ports:
+      - "5436:5432"
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+
+volumes:
+  postgres-db:
